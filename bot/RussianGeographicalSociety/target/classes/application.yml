@@ -1,0 +1,22 @@
+bot:
+  token: 6881850146:AAHe3olA5V6iNxL6cWqTvgyewOIUKqyxuEU
+  name: RGS_ambassador_bot
+service:
+  file-info.uri: https://api.telegram.org/bot{token}/getFile?file_id={file_id}
+  file-storage.uri: https://api.telegram.org/file/bot{token}/{filePath}
+
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/rgs_ambassadors
+    username: user
+    password: "password"
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        temp:
+          use_jdbc_metadata_defaults: false
+    generate-ddl: true
