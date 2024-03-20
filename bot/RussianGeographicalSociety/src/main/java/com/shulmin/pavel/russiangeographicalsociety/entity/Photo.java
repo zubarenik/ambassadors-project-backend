@@ -14,6 +14,6 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     @Column(name = "url")
-    String uri; //fileAsArrayOfBytes;
+    String uri;
     int ambassador;
 }

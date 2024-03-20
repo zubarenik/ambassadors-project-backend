@@ -6,8 +6,6 @@ import lombok.*;
 import ru.ambassadors.competition.backend.dtos.AmbassadorDTO;
 import ru.ambassadors.competition.backend.dtos.QuestionDTO;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -38,13 +36,15 @@ public class AmbassadorEntity {
     String generalQuestions = "";
     @Column(name = "special_questions", length = 40_000)
     String specialQuestions = "";
+    @ElementCollection
+    @CollectionTable(name = "Photos", joinColumns = @JoinColumn(name = "ambassador"))
+    @Column(name = "url")
+    List<String> photos;
     boolean winner = false;
 
     public AmbassadorDTO getDTO() {
         Gson gson = new Gson();
         QuestionDTO[] generalQuestionsDTO = gson.fromJson(generalQuestions, QuestionDTO[].class);
-        System.out.println("122222222222222222222222222222222222222");
-        System.out.println(generalQuestionsDTO);
         QuestionDTO[] specialQuestionsDTO = gson.fromJson(specialQuestions, QuestionDTO[].class);
         return AmbassadorDTO.builder()
                 .id(id)
@@ -58,6 +58,7 @@ public class AmbassadorEntity {
                 .category(category)
                 .generalQuestions(List.of(generalQuestionsDTO))
                 .specialQuestions(List.of(specialQuestionsDTO))
+                .photos(photos)
                 .winner(winner)
                 .build();
     }
