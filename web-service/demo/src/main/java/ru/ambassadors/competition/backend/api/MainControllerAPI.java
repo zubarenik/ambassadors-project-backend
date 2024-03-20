@@ -7,6 +7,7 @@ import ru.ambassadors.competition.backend.dtos.*;
 import java.util.List;
 
 @Tag(name = "Основное АПИ")
+@CrossOrigin(origins = "http://localhost:8082")
 @RequestMapping("/ambassadors-competition")
 public interface MainControllerAPI {
     @GetMapping("/ambassadors")

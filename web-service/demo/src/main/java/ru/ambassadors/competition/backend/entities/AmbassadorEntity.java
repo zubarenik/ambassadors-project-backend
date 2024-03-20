@@ -7,6 +7,7 @@ import ru.ambassadors.competition.backend.dtos.AmbassadorDTO;
 import ru.ambassadors.competition.backend.dtos.QuestionDTO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -40,8 +41,10 @@ public class AmbassadorEntity {
     boolean winner = false;
 
     public AmbassadorDTO getDTO() {
-        Gson gson =new Gson();
+        Gson gson = new Gson();
         QuestionDTO[] generalQuestionsDTO = gson.fromJson(generalQuestions, QuestionDTO[].class);
+        System.out.println("122222222222222222222222222222222222222");
+        System.out.println(generalQuestionsDTO);
         QuestionDTO[] specialQuestionsDTO = gson.fromJson(specialQuestions, QuestionDTO[].class);
         return AmbassadorDTO.builder()
                 .id(id)

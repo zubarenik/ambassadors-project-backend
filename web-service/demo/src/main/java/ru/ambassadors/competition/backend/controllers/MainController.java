@@ -17,6 +17,8 @@ public class MainController implements MainControllerAPI {
 
     @Override
     public List<AmbassadorDTO> getAmbassadors(Integer filterCategory, Integer pageIndex) {
+        System.out.println("777777777777777777777777777777777777");
+        System.out.println(filterCategory);
         if (filterCategory == null) {
             return ambassadorService.getAll(pageIndex);
         } else {

@@ -12,3 +12,5 @@ spring:
         temp:
           use_jdbc_metadata_defaults: false
     generate-ddl: true
+server:
+  port: 8181
