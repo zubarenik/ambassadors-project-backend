@@ -26,6 +26,7 @@ services:
       - "8181:8181"
     depends_on:
       - postgres
+      - bot
     environment:
       - SERVER_PORT= 8181
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/rgs_ambassadors
