@@ -4,6 +4,7 @@ import com.shulmin.pavel.russiangeographicalsociety.entity.Photo;
 import com.shulmin.pavel.russiangeographicalsociety.repositories.AmbassadorsRepository;
 import com.shulmin.pavel.russiangeographicalsociety.repositories.PhotosRepository;
 import com.shulmin.pavel.russiangeographicalsociety.services.PhotoService;
+import jakarta.transaction.Transactional;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Service
+@Transactional
 @PropertySource("classpath:application.yml")
 public class PhotoServiceImpl implements PhotoService {
     @Value("${bot.token}")
@@ -30,7 +32,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public Photo processPhoto(Message message) {
+    public void processPhoto(Message message) {
         String fileId = null;
         if (message.hasPhoto()){
             fileId = message.getPhoto().get(message.getPhoto().size() - 1).getFileId();
@@ -39,7 +41,7 @@ public class PhotoServiceImpl implements PhotoService {
             fileId = message.getDocument().getFileId();
         }
         ResponseEntity<String> response = getFilePath(fileId);
-        String filePath = "";
+        String filePath;
         if (response.getStatusCode() == HttpStatus.OK) {
             JSONObject jsonObject = new JSONObject(response.getBody());
             filePath = jsonObject.getJSONObject("result").getString("file_path");
@@ -51,7 +53,13 @@ public class PhotoServiceImpl implements PhotoService {
         Photo photo = new Photo();
         photo.setUri(fileUri);
         photo.setAmbassador(ambassadorId);
-        return photosRepository.save(photo);
+        photosRepository.save(photo);
+    }
+
+    @Override
+    public void deleteOldPhotos(Long chatId) {
+        Integer ambassadorId = ambassadorsRepository.findFirstByChatId(chatId).get().getId();
+        photosRepository.deleteAllByAmbassador(ambassadorId);
     }
 
     private ResponseEntity<String> getFilePath(String fileId) {

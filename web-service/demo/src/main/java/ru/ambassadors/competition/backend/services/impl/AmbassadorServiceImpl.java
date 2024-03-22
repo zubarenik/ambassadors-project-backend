@@ -26,7 +26,7 @@ public class AmbassadorServiceImpl implements AmbassadorService {
 
     @Override
     public List<AmbassadorDTO> getAllByFilter(int filterCategory, int pageIndex) {
-        List<AmbassadorEntity> ambassadorEntities = ambassadorsRepository.findByCategoryOrderById(filterCategory, PageRequest.of(pageIndex, 1));
+        List<AmbassadorEntity> ambassadorEntities = ambassadorsRepository.findByCategoryOrderById(filterCategory, PageRequest.of(pageIndex, 50));
         return ambassadorEntities.stream().map(AmbassadorEntity::getDTO).toList();
     }
 

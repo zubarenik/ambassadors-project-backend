@@ -46,6 +46,8 @@ public class AmbassadorEntity {
         Gson gson = new Gson();
         QuestionDTO[] generalQuestionsDTO = gson.fromJson(generalQuestions, QuestionDTO[].class);
         QuestionDTO[] specialQuestionsDTO = gson.fromJson(specialQuestions, QuestionDTO[].class);
+        if (generalQuestionsDTO == null) {generalQuestionsDTO = new QuestionDTO[]{};}
+        if (specialQuestionsDTO == null) {specialQuestionsDTO = new QuestionDTO[]{};}
         return AmbassadorDTO.builder()
                 .id(id)
                 .fullName(fullName)

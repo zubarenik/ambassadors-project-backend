@@ -55,6 +55,7 @@ public class MessageHandler {
         String messageText = message.getText();
 
         if (messageText.equals("/start")) {
+            photoService.deleteOldPhotos(message.getChatId());
             ambassadorsService.create(chatId);
             botStatesService.create(chatId);
         }
