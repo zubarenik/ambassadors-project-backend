@@ -1,5 +1,6 @@
 package com.shulmin.pavel.russiangeographicalsociety.services.impl;
 
+import com.shulmin.pavel.russiangeographicalsociety.entity.AmbassadorEntity;
 import com.shulmin.pavel.russiangeographicalsociety.entity.Photo;
 import com.shulmin.pavel.russiangeographicalsociety.repositories.AmbassadorsRepository;
 import com.shulmin.pavel.russiangeographicalsociety.repositories.PhotosRepository;
@@ -12,6 +13,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -58,8 +61,11 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public void deleteOldPhotos(Long chatId) {
-        Integer ambassadorId = ambassadorsRepository.findFirstByChatId(chatId).get().getId();
-        photosRepository.deleteAllByAmbassador(ambassadorId);
+        Optional<AmbassadorEntity> optional = ambassadorsRepository.findFirstByChatId(chatId);
+        if (optional.isPresent()) {
+            Integer ambassadorId = optional.get().getId();
+            photosRepository.deleteAllByAmbassador(ambassadorId);
+        }
     }
 
     private ResponseEntity<String> getFilePath(String fileId) {

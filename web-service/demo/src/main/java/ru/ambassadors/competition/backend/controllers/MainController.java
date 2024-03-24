@@ -4,15 +4,18 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ambassadors.competition.backend.api.MainControllerAPI;
 import ru.ambassadors.competition.backend.dtos.*;
 import ru.ambassadors.competition.backend.services.AmbassadorService;
+import ru.ambassadors.competition.backend.services.UserService;
 
 import java.util.List;
 
 @RestController
 public class MainController implements MainControllerAPI {
     private final AmbassadorService ambassadorService;
+    private final UserService userService;
 
-    public MainController(AmbassadorService ambassadorService) {
+    public MainController(AmbassadorService ambassadorService, UserService userService) {
         this.ambassadorService = ambassadorService;
+        this.userService = userService;
     }
 
     @Override
@@ -36,6 +39,6 @@ public class MainController implements MainControllerAPI {
 
     @Override
     public void saveUsersVote(UserDTO userDTO) {
-
+        userService.saveUser(userDTO);
     }
 }

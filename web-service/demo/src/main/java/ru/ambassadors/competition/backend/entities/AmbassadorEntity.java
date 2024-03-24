@@ -17,30 +17,32 @@ import java.util.List;
 public class AmbassadorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id = null;
+    private Integer id = null;
     @Column(name = "chat_id")
-    long chatId = 0;
+    private long chatId = 0;
     @Column(name = "full_name")
-    String fullName = "";
-    int age = 0;
-    boolean sex = true;
+    private String fullName = "";
+    private int age = 0;
+    private boolean sex = true;
     @Column(name = "place_born")
-    String placeBorn = "";
+    private String placeBorn = "";
     @Column(name = "place_live")
-    String placeLive = "";
-    String social = "";
+    private String placeLive = "";
+    private String social = "";
     @Column(name = "type_tourist")
-    String typeTourist = "";
-    Integer category = 0;
+    private String typeTourist = "";
+    private Integer category = 0;
     @Column(name = "general_questions", length = 40_000)
-    String generalQuestions = "";
+    private String generalQuestions = "";
     @Column(name = "special_questions", length = 40_000)
-    String specialQuestions = "";
+    private String specialQuestions = "";
     @ElementCollection
     @CollectionTable(name = "Photos", joinColumns = @JoinColumn(name = "ambassador"))
     @Column(name = "url")
-    List<String> photos;
-    boolean winner = false;
+    private List<String> photos;
+    @OneToMany(mappedBy = "ambassador")
+    private List<UserEntity> users;
+    private boolean winner = false;
 
     public AmbassadorDTO getDTO() {
         Gson gson = new Gson();
