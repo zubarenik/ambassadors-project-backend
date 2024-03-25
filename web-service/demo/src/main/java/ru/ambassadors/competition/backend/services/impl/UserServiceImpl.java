@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.ambassadors.competition.backend.dtos.UserDTO;
 import ru.ambassadors.competition.backend.entities.AmbassadorEntity;
 import ru.ambassadors.competition.backend.entities.UserEntity;
+import ru.ambassadors.competition.backend.exceptions.DuplicateEmailException;
 import ru.ambassadors.competition.backend.repositories.AmbassadorsRepository;
 import ru.ambassadors.competition.backend.repositories.UsersRepository;
 import ru.ambassadors.competition.backend.services.UserService;
@@ -47,6 +48,10 @@ public class UserServiceImpl implements UserService {
                 .checkBoxData(user.getCheckBoxData())
                 .build();
 
-        usersRepository.save(userEntity);
+        try {
+            usersRepository.save(userEntity);
+        } catch (Exception ex) {
+            throw new DuplicateEmailException();
+        }
     }
 }
